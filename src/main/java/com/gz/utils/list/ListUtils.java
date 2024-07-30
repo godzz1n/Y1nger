@@ -46,4 +46,25 @@ public class ListUtils {
         return new ArrayList<>(Arrays.asList(split));
     }
 
+    /**
+     * 将给定对象转换为指定类型的列表。
+     * 该方法主要用于处理类型转换问题，当需要将一个List中的元素全部转换为特定类型时，可以使用此方法。
+     *
+     * @param obj 需要转换的对象，预期是一个List类型的对象。
+     * @param clazz 指定的类型，用于将列表中的元素转换为此类型。
+     * @param <T> 泛型参数，表示转换后的类型。
+     * @return 转换后的列表，如果输入对象不是List类型，则返回null。
+     */
+    public static <T> List<T> castList(Object obj, Class<T> clazz) {
+        List<T> result = new ArrayList<T>();
+        if (obj instanceof List<?>) {
+            for (Object o : (List<?>) obj) {
+                result.add(clazz.cast(o));
+            }
+            return result;
+        }
+        return null;
+    }
+
+
 }
