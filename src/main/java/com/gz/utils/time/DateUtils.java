@@ -1,8 +1,7 @@
 package com.gz.utils.time;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
- 
+
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -18,7 +17,7 @@ import java.util.*;
  * @author gao.zhen
  * @date 2024/7/30 14:19
  */
-public class DateUtil {
+public class DateUtils {
  
     /**
      * 仅显示年月日，例如 2015-08-11.
@@ -97,7 +96,7 @@ public class DateUtil {
      * @since 1.0
      */
     public static String getDate() {
-        return getDate(DateUtil.DATE_FORMAT);
+        return getDate(DateUtils.DATE_FORMAT);
     }
  
     /**
@@ -107,7 +106,7 @@ public class DateUtil {
      * @since 1.0
      */
     public static String getTime() {
-        return formatDate(new Date(), DateUtil.TIME_FORMAT);
+        return formatDate(new Date(), DateUtils.TIME_FORMAT);
     }
  
     /**
@@ -117,7 +116,7 @@ public class DateUtil {
      * @since 1.0
      */
     public static String getDateTime() {
-        return formatDate(new Date(), DateUtil.DATETIME_FORMAT);
+        return formatDate(new Date(), DateUtils.DATETIME_FORMAT);
     }
  
     /**
@@ -182,7 +181,7 @@ public class DateUtil {
         if (pattern != null && pattern.length > 0) {
             formatDate = DateFormatUtils.format(date, pattern[0].toString());
         } else {
-            formatDate = DateFormatUtils.format(date, DateUtil.DATE_FORMAT);
+            formatDate = DateFormatUtils.format(date, DateUtils.DATE_FORMAT);
         }
         return formatDate;
     }
@@ -200,7 +199,7 @@ public class DateUtil {
         if (pattern != null && pattern.length > 0) {
             formatDate = DateFormatUtils.format(date, pattern[0].toString());
         } else {
-            formatDate = DateFormatUtils.format(date, DateUtil.DATETIME_FORMAT);
+            formatDate = DateFormatUtils.format(date, DateUtils.DATETIME_FORMAT);
         }
         return formatDate;
     }
@@ -258,7 +257,7 @@ public class DateUtil {
             return null;
         }
         try {
-            return DateUtils.parseDate(str.toString(), parsePatterns);
+            return org.apache.commons.lang3.time.DateUtils.parseDate(str.toString(), parsePatterns);
         } catch (ParseException e) {
             return null;
         }
@@ -287,12 +286,12 @@ public class DateUtil {
      */
     public static long pastDays(Date date) {
         // 将指定日期转换为yyyy-MM-dd格式
-        date = DateUtil.parseDate(DateUtil.formatDate(date, DateUtil.DATE_FORMAT));
+        date = DateUtils.parseDate(DateUtils.formatDate(date, DateUtils.DATE_FORMAT));
         // 当前日期转换为yyyy-MM-dd格式
-        Date currentDate = DateUtil.parseDate(DateUtil.formatDate(new Date(), DateUtil.DATE_FORMAT));
+        Date currentDate = DateUtils.parseDate(DateUtils.formatDate(new Date(), DateUtils.DATE_FORMAT));
         long t = 0;
         if (date != null && currentDate != null) {
-            t = (currentDate.getTime() - date.getTime()) / DateUtil.MILLISECONDS_PER_DAY;
+            t = (currentDate.getTime() - date.getTime()) / DateUtils.MILLISECONDS_PER_DAY;
         }
         return t;
     }
@@ -412,13 +411,13 @@ public class DateUtil {
      */
     public static long getDaysBetween(Date start, Date end) {
         // 将指定日期转换为yyyy-MM-dd格式
-        start = DateUtil.parseDate(DateUtil.formatDate(start, DateUtil.DATE_FORMAT));
+        start = DateUtils.parseDate(DateUtils.formatDate(start, DateUtils.DATE_FORMAT));
         // 当前日期转换为yyyy-MM-dd格式
-        end = DateUtil.parseDate(DateUtil.formatDate(end, DateUtil.DATE_FORMAT));
+        end = DateUtils.parseDate(DateUtils.formatDate(end, DateUtils.DATE_FORMAT));
  
         long diff = 0;
         if (start != null && end != null) {
-            diff = (end.getTime() - start.getTime()) / DateUtil.MILLISECONDS_PER_DAY;
+            diff = (end.getTime() - start.getTime()) / DateUtils.MILLISECONDS_PER_DAY;
         }
         return diff;
     }
@@ -432,7 +431,7 @@ public class DateUtil {
      * @since 1.0
      */
     public static long getWeeksBetween(Date start, Date end) {
-        return getDaysBetween(start, end) / DateUtil.DAYS_PER_WEEK;
+        return getDaysBetween(start, end) / DateUtils.DAYS_PER_WEEK;
     }
  
     /**
@@ -450,7 +449,7 @@ public class DateUtil {
         c.setTime(specifiedDate);
         int day = c.get(Calendar.DATE);
         c.set(Calendar.DATE, day + num);
-        String dayAfter = formatDate(c.getTime(), DateUtil.DATE_FORMAT);
+        String dayAfter = formatDate(c.getTime(), DateUtils.DATE_FORMAT);
         return dayAfter;
     }
  
@@ -508,7 +507,7 @@ public class DateUtil {
         }
         Long r = date1.getTime() - date2.getTime();
         DecimalFormat df = new DecimalFormat("#.0");
-        double result = r * 1.0 / DateUtil.MILLISECONDS_PER_HOUR;
+        double result = r * 1.0 / DateUtils.MILLISECONDS_PER_HOUR;
         return df.format(result);
     }
  
@@ -554,7 +553,7 @@ public class DateUtil {
         } else if (seconds < SECONDS_PER_YEAR) {
             buffer.append(seconds / SECONDS_PER_MONTH).append("月前");
         } else {
-            buffer.append(seconds / DateUtil.SECONDS_PER_YEAR).append("年前");
+            buffer.append(seconds / DateUtils.SECONDS_PER_YEAR).append("年前");
         }
         return buffer.toString();
     }
@@ -623,8 +622,8 @@ public class DateUtil {
     public static int getMonthsBetween(@NotNull(message = "开始时间不能为空") Date startDate, @NotNull(message = "结束时间不能为空") Date endDate) {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
-        c1.setTime(DateUtil.parseDate(startDate));
-        c2.setTime(DateUtil.parseDate(endDate));
+        c1.setTime(DateUtils.parseDate(startDate));
+        c2.setTime(DateUtils.parseDate(endDate));
         int year = c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR);
         int month = c2.get(Calendar.MONTH) - c1.get(Calendar.MONTH);
         return Math.abs(year * 12 + month);
@@ -1009,8 +1008,8 @@ public class DateUtil {
      */
     public static List<String> cutDate(String dateType, Date start, Date end) {
         try {
-            String dBegin = DateUtil.getDate(start, "yyyy-MM-dd HH:mm:ss");
-            String dEnd = DateUtil.getDate(end, "yyyy-MM-dd HH:mm:ss");
+            String dBegin = DateUtils.getDate(start, "yyyy-MM-dd HH:mm:ss");
+            String dEnd = DateUtils.getDate(end, "yyyy-MM-dd HH:mm:ss");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date cutBegin = sdf.parse(dBegin);
             Date cutEnd = sdf.parse(dEnd);
@@ -1063,8 +1062,8 @@ public class DateUtil {
      */
     public static List<String> cutDates(String dateType, Date start, Date end,int n) {
         try {
-            String dBegin = DateUtil.getDate(start, "yyyy-MM-dd HH:mm:ss");
-            String dEnd = DateUtil.getDate(end, "yyyy-MM-dd HH:mm:ss");
+            String dBegin = DateUtils.getDate(start, "yyyy-MM-dd HH:mm:ss");
+            String dEnd = DateUtils.getDate(end, "yyyy-MM-dd HH:mm:ss");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date cutBegin = sdf.parse(dBegin);
             Date cutEnd = sdf.parse(dEnd);
@@ -1164,7 +1163,7 @@ public class DateUtil {
  
         while (endParse.after(calendar.getTime())){
             calendar.add(Calendar.DAY_OF_MONTH,1);
-            dateList.add(DateUtil.formatDate(calendar.getTime()));
+            dateList.add(DateUtils.formatDate(calendar.getTime()));
         }
  
         return dateList;
