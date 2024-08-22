@@ -46,11 +46,18 @@ public class TimeUtils {
         return dateList;
     }
 
-
+    /**
+     * 根据指定总数获取一系列日期字符串
+     * 该方法主要用于生成一个包含从当前日期开始向前推算的指定数量天数的日期列表
+     *
+     * @param total 总数，表示需要生成的天数
+     * @param sdf   日期格式化对象，用于指定日期字符串的格式
+     * @return 返回一个包含日期字符串的列表
+     */
     private static List<String> getDayList(Integer total, SimpleDateFormat sdf) {
         List<String> dateList = new ArrayList<>();
        // SimpleDateFormat sdf = new SimpleDateFormat("M.dd");
-        for (int i = 7; i > 0; i--) {
+        for (int i = total; i > 0; i--) {
             Date date = DateUtils.addDays(new Date(), -i);
             String formatDate = sdf.format(date);
             dateList.add(formatDate);
